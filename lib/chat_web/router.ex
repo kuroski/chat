@@ -18,6 +18,7 @@ defmodule ChatWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/live", MessageLive
   end
 
   # Other scopes may use custom stacks.

@@ -29,7 +29,7 @@ defmodule ChatWeb.RoomChannel do
 
   @impl true
   def handle_info(:after_join, socket) do
-    Chat.Message.get_messages()
+    Chat.Message.list_messages()
     # revers to display the latest message at the bottom of the page
     |> Enum.reverse()
     |> Enum.each(fn msg ->
