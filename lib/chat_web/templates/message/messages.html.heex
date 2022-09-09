@@ -1,0 +1,18 @@
+<ul id="msg-list-2" phx-update="append"> 
+    <%= for message <- @messages do %>
+        <li id={"msg-#{message.id}"}>
+            <b><%= message.name %>:</b>
+            <%= message.message %>
+        </li>
+    <% end %>
+</ul>
+
+<.form let={f} for={@changeset} id="form" phx-submit="new_message" phx-hook="Form">
+    <%= text_input f, :name, id: "name", placeholder: "Your name", autofocus: "true" %>
+    <%= error_tag f, :name %>
+
+    <%= text_input f, :message, id: "msg-2", placeholder: "Your message" %>
+    <%= error_tag f, :message %>
+
+    <%= submit "Send" %>
+</.form>
