@@ -10,18 +10,36 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-    <header class="container">
-      <section>
-        <nav role="navigation">
-          <h1 style="margin-bottom: 0;">Chat Example</h1>
-          <%= link "Chat LiveView version", to: "/live" %>
-          <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-            <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
-          <% end %>
+    <header>
+      <section class="container">
+        <nav>
+          <ul>
+            <li>
+              <%= link "Chat LiveView version", to: "/live" %>
+            </li>
+
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+            <% end %>
+
+            <%= if @current_user do %>
+              <li>
+                <img width="40px" src={@current_user.avatar}/>
+              </li>
+              <li>
+                <%= link "Logout", to: Routes.auth_path(@conn, :delete), method: "delete", class: "button" %>
+              </li>
+            <% else %>
+              <li>
+                <%= link "Sign in with Github", to: Routes.auth_path(@conn, :request, "github"), class: "button" %>
+              </li>
+            <% end %>
+          </ul>
         </nav>
-        <img src={Routes.static_path(@conn, "/images/phoenix.png")} width="500px" alt="Phoenix Framework Logo" />
+        <h1>LiveView Chat Example</h1>
       </section>
     </header>
+
     <%= @inner_content %>
   </body>
 </html>
