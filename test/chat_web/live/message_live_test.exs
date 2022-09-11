@@ -2,6 +2,7 @@ defmodule ChatWeb.MessageLiveTest do
   use ChatWeb.ConnCase
   import Phoenix.LiveViewTest
   import Plug.HTML, only: [html_escape: 1]
+  alias Chat.Message
 
   test "name can't be blank", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/live")
@@ -32,5 +33,26 @@ defmodule ChatWeb.MessageLiveTest do
     assert html_response(conn, 200) =~ "Chat Example"
 
     {:ok, _view, _html} = live(conn)
+  end
+
+  test "message form submitted correctly", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/live")
+
+    assert view
+           |> form("#form", message: %{name: "Simon", message: "hi"})
+           |> render_submit()
+
+    assert render(view) =~ "<b>Simon:</b>"
+    assert render(view) =~ "hi"
+  end
+
+  test "handle_info/2", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/live")
+    assert render(view)
+    # send :created_message event when the message is created
+    Message.create_message(%{"name" => "Simon", "message" => "hello"})
+    # test that the name and the message is displayed
+    assert render(view) =~ "<b>Simon:</b>"
+    assert render(view) =~ "hello"
   end
 end

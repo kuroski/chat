@@ -3,6 +3,7 @@ defmodule Chat.Message do
   import Ecto.Changeset
   import Ecto.Query
   alias Chat.Repo
+  alias Phoenix.PubSub
   alias __MODULE__
 
   schema "messages" do
@@ -24,6 +25,7 @@ defmodule Chat.Message do
     %Message{}
     |> changeset(attrs)
     |> Repo.insert()
+    |> notify(:message_created)
   end
 
   def list_messages(limit \\ 20) do
@@ -32,4 +34,14 @@ defmodule Chat.Message do
     |> order_by(desc: :inserted_at)
     |> Repo.all()
   end
+
+  def subscribe do
+    PubSub.subscribe(Chat.PubSub, "liveview_chat")
+  end
+
+  def notify({:ok, message}, event) do
+    PubSub.broadcast(Chat.PubSub, "liveview_chat", {event, message})
+  end
+
+  def notify({:error, reason}, _event), do: {:error, reason}
 end
