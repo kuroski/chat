@@ -14,5 +14,5 @@
     <%= text_input f, :message, id: "msg", placeholder: "Your message" %>
     <%= error_tag f, :message %>
 
-    <%= submit "Send" %>
+    <%= submit "Send", phx_disable_with: "Sending..." %>
 </.form>

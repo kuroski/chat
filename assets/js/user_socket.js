@@ -69,10 +69,10 @@ channel.join();
 
 let ul = document.getElementById("msg-list"); // list of messages.
 let name = document.getElementById("name"); // name of message sender
-let msg = document.getElementById("msg"); // message input field
+let msg = document.getElementById("msg-static"); // message input field
 
 // "listen" for the [Enter] keypress event to send a message:
-msg.addEventListener("keypress", function (event) {
+msg?.addEventListener("keypress", function (event) {
   if (event.keyCode == 13 && msg.value.length > 0) {
     // don't sent empty msg.
     channel.push("shout", {
