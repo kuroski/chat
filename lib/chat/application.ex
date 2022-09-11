@@ -14,6 +14,8 @@ defmodule Chat.Application do
       ChatWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Chat.PubSub},
+      # Presence
+      Chat.Presence,
       # Start the Endpoint (http/https)
       ChatWeb.Endpoint
       # Start a worker by calling: Chat.Worker.start_link(arg)

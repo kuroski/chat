@@ -55,4 +55,17 @@ defmodule ChatWeb.MessageLiveTest do
     assert render(view) =~ "<b>Simon:</b>"
     assert render(view) =~ "hello"
   end
+
+  test "1 guest online", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    assert render(view) =~ "1 guest"
+  end
+
+  test "2 guests online", %{conn: conn} do
+    {:ok, _view, _html} = live(conn, "/")
+    {:ok, view2, _html} = live(conn, "/")
+
+    assert render(view2) =~ "2 guests"
+  end
 end
